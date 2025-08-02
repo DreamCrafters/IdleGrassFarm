@@ -4,25 +4,22 @@ using VContainer.Unity;
 
 public class FarmTileFactory
 {
+    [Inject] private readonly GroundSpawnerService _groundSpawnerData;
     private readonly IObjectResolver _resolver;
-    private readonly IContainerBuilder _builder;
-    private readonly GameObject _tilePrefab;
+    private readonly FarmFieldTileManager _providerManager;
 
-    public FarmTileFactory(IContainerBuilder builder, IObjectResolver resolver, GameObject tilePrefab)
+    public FarmTileFactory(FarmFieldTileManager providerManager, IObjectResolver resolver)
     {
+        _providerManager = providerManager;
         _resolver = resolver;
-        _builder = builder;
-        _tilePrefab = tilePrefab;
     }
 
-    public GameObject CreateTile(Vector3 position, Transform parent = null)
+    public FarmFieldTileService CreateTile(Vector3 position, Transform parent = null)
     {
-        GameObject tileGO = _resolver.Instantiate(_tilePrefab, position, Quaternion.identity, parent);
-        FarmFieldTileService tileService = tileGO.GetComponent<FarmFieldTileService>();
-
-        // Можно добавить презентер в какой-то менеджер тикабельных объектов
-        // Или регистрировать его отдельно
-
-        return tileGO;
+        FarmFieldTileService tileObject = _resolver.Instantiate(_groundSpawnerData.FarmFieldPrefab, position, Quaternion.identity, parent);
+        FarmFieldTilePresenter presenter = new(tileObject);
+        _resolver.Inject(presenter);
+        _providerManager.RegisterProvider(presenter);
+        return tileObject;
     }
 }

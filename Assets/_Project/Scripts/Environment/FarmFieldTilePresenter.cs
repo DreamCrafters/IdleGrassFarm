@@ -1,26 +1,27 @@
 using UnityEngine;
-using VContainer.Unity;
+using VContainer;
 
-public class FarmFieldTilePresenter : ITickable
+public class FarmFieldTilePresenter
 {
-    private readonly FarmFieldTileService _farmFieldTileService;
-
+    [Inject] private readonly FarmSettings _farmSettings;
+    private readonly FarmFieldTileService _tileService;
     private float _tickTimer;
 
-    public FarmFieldTilePresenter(FarmFieldTileService farmFieldTileService)
+    public FarmFieldTilePresenter(FarmFieldTileService tileService)
     {
-        _farmFieldTileService = farmFieldTileService;
+        _tileService = tileService;
     }
 
     public void Tick()
     {
-        Debug.Log($"Tick called for FarmFieldTilePresenter with stage: {_farmFieldTileService.CurrentStage}");
-        // _tickTimer += Time.deltaTime;
+        if (_tileService == null || _tileService.CurrentStage == TileStage.Stage3) return;
+        
+        _tickTimer += Time.deltaTime;
 
-        // if (_tickTimer >= 1f)
-        // {
-        //     _tickTimer = 0f;
-        //     Debug.Log($"Current Stage: {_farmFieldTileService.CurrentStage}");
-        // }
+        if (_tickTimer >= _farmSettings.TimeToNextStage)
+        {
+            _tickTimer = 0f;
+            _tileService.SetStage(_tileService.CurrentStage + 1);
+        }
     }
 }

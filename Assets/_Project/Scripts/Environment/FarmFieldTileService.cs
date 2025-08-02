@@ -12,7 +12,7 @@ public class FarmFieldTileService : MonoBehaviour
 
     private void Awake()
     {
-        SetStage(TileStage.Stage1);
+        SetStage(TileStage.Stage0);
     }
     
     public void SetStage(TileStage tileStage)
@@ -21,12 +21,5 @@ public class FarmFieldTileService : MonoBehaviour
         _stage1.SetActive(tileStage == TileStage.Stage1);
         _stage2.SetActive(tileStage == TileStage.Stage2);
         _stage3.SetActive(tileStage == TileStage.Stage3);
-    }
-
-    public enum TileStage
-    {
-        Stage1 = 1,
-        Stage2 = 2,
-        Stage3 = 3
     }
 }

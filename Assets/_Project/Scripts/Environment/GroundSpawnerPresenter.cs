@@ -37,7 +37,7 @@ public class GroundSpawnerPresenter : IStartable
                 if (x >= _groundSpawner.FarmFieldStartPosition.x && x < _groundSpawner.FarmFieldStartPosition.x + _groundSpawner.FarmFieldSize
                     && y >= _groundSpawner.FarmFieldStartPosition.y && y < _groundSpawner.FarmFieldStartPosition.y + _groundSpawner.FarmFieldSize)
                 {
-                    GameObject farmFieldInstance = _tileFactory.CreateTile(worldPosition, _groundSpawner.GroundParent);
+                    FarmFieldTileService farmFieldInstance = _tileFactory.CreateTile(worldPosition, _groundSpawner.GroundParent);
                     farmFieldInstance.name = $"FarmField_{x}_{y}";
                 }
                 else
