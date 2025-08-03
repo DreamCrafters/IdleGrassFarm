@@ -3,11 +3,12 @@ using VContainer;
 
 public class FarmFieldTilePresenter
 {
-    [Inject] private readonly FarmSettings _farmSettings;
-    private readonly FarmFieldTileService _tileService;
+    [Inject] private readonly FarmConfig _farmSettings;
+    
+    private readonly FarmFieldTileModel _tileService;
     private float _tickTimer;
 
-    public FarmFieldTilePresenter(FarmFieldTileService tileService)
+    public FarmFieldTilePresenter(FarmFieldTileModel tileService)
     {
         _tileService = tileService;
     }
@@ -15,7 +16,7 @@ public class FarmFieldTilePresenter
     public void Tick()
     {
         if (_tileService == null || _tileService.CurrentStage == TileStage.Stage3) return;
-        
+
         _tickTimer += Time.deltaTime;
 
         if (_tickTimer >= _farmSettings.TimeToNextStage)

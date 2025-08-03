@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FarmFieldTileService : MonoBehaviour
+public class FarmFieldTileModel : MonoBehaviour
 {
     [SerializeField] private GameObject _stage1;
     [SerializeField] private GameObject _stage2;

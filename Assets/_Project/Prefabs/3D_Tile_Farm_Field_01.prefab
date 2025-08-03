@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 1406938107616502830}
   - component: {fileID: 2605800039456320395}
   - component: {fileID: 273978633158057793}
+  - component: {fileID: 627697967974180309}
   - component: {fileID: 8191606701691402847}
   m_Layer: 0
   m_Name: 3D_Tile_Farm_Field_01
-  m_TagString: Untagged
+  m_TagString: Farm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,6 +88,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &627697967974180309
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787263219254001300}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 3, z: 0}
 --- !u!114 &8191606701691402847
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,20 +1,38 @@
+using System;
 using UnityEngine;
 using VContainer;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Inject] private readonly GroundSpawnerService _groundSpawnerService;
+    [Inject] private readonly PlayerConfig _playerConfig;
+    [Inject] private readonly FarmConfig _farmConfig;
 
-    [SerializeField] private float _moveSpeed = 5f;
-    [SerializeField] private float _acceleration = 10f;
-
+    private Rigidbody _rigidbody;
     private Vector3 _moveDirection;
     private Vector3 _currentVelocity;
     private Camera _playerCamera;
 
+    public event Action<Collider> OnTriggerEnterEvent;
+    public event Action<Collider> OnTriggerExitEvent;
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+    }
+
     private void Start()
     {
         _playerCamera = Camera.main;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        OnTriggerEnterEvent?.Invoke(other);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        OnTriggerExitEvent?.Invoke(other);
     }
 
     private void Update()
@@ -39,21 +57,21 @@ public class PlayerMovement : MonoBehaviour
 
         _moveDirection = cameraForward * vertical + cameraRight * horizontal;
 
-        Vector3 targetVelocity = _moveDirection.normalized * _moveSpeed;
+        Vector3 targetVelocity = _moveDirection.normalized * _playerConfig.MoveSpeed;
 
-        _currentVelocity = Vector3.MoveTowards(_currentVelocity, targetVelocity, _acceleration * Time.deltaTime);
+        _currentVelocity = Vector3.MoveTowards(_currentVelocity, targetVelocity, _playerConfig.Acceleration * Time.deltaTime);
 
         if (_currentVelocity.magnitude >= 0.1f)
         {
-            transform.Translate(_currentVelocity * Time.deltaTime, Space.World);
+            _rigidbody.MovePosition(_rigidbody.position + _currentVelocity * Time.deltaTime);
         }
     }
 
     private void ProcessBounds()
     {
         Vector3 position = transform.position;
-        Vector2 gridSize = _groundSpawnerService.GridSize;
-        Vector2 cellSize = _groundSpawnerService.CellSize;
+        Vector2 gridSize = _farmConfig.GridSize;
+        Vector2 cellSize = _farmConfig.CellSize;
 
         float halfGridWidth = gridSize.x * cellSize.x / 2f;
         float halfGridHeight = gridSize.y * cellSize.y / 2f;

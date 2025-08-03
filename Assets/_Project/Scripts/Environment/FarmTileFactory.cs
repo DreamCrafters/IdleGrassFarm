@@ -4,19 +4,13 @@ using VContainer.Unity;
 
 public class FarmTileFactory
 {
-    [Inject] private readonly GroundSpawnerService _groundSpawnerData;
-    private readonly IObjectResolver _resolver;
-    private readonly FarmFieldTileManager _providerManager;
+    [Inject] private readonly FarmConfig _farmConfig;
+    [Inject] private readonly IObjectResolver _resolver;
+    [Inject] private readonly FarmFieldTileManager _providerManager;
 
-    public FarmTileFactory(FarmFieldTileManager providerManager, IObjectResolver resolver)
+    public FarmFieldTileModel CreateTile(Vector3 position, Transform parent = null)
     {
-        _providerManager = providerManager;
-        _resolver = resolver;
-    }
-
-    public FarmFieldTileService CreateTile(Vector3 position, Transform parent = null)
-    {
-        FarmFieldTileService tileObject = _resolver.Instantiate(_groundSpawnerData.FarmFieldPrefab, position, Quaternion.identity, parent);
+        FarmFieldTileModel tileObject = _resolver.Instantiate(_farmConfig.FarmFieldPrefab, position, Quaternion.identity, parent);
         FarmFieldTilePresenter presenter = new(tileObject);
         _resolver.Inject(presenter);
         _providerManager.RegisterProvider(presenter);
