@@ -15,17 +15,17 @@ public class FarmFieldTileModel : MonoBehaviour
 
     private void Awake()
     {
-        SetStage(TileStage.Stage3);
+        SetStage(TileStage.Stage0, false);
     }
 
-    public void SetStage(TileStage tileStage)
+    public void SetStage(TileStage tileStage, bool playHarvestEffect = true)
     {
         _currentStage = tileStage;
         _stage1.SetActive(tileStage == TileStage.Stage1);
         _stage2.SetActive(tileStage == TileStage.Stage2);
         _stage3.SetActive(tileStage == TileStage.Stage3);
 
-        if (tileStage == TileStage.Stage0)
+        if (tileStage == TileStage.Stage0 && playHarvestEffect)
         {
             _harvestEffect.Play();
         }

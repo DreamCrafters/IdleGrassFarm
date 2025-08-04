@@ -4,6 +4,7 @@ using VContainer;
 
 public class QueueModel : MonoBehaviour
 {
+    private readonly int SpeedKey = Animator.StringToHash("Speed");
     private readonly List<QueueItem> _queue = new();
 
     [Inject] private readonly PlayerCornsModel _playerCornsModel;
@@ -51,6 +52,11 @@ public class QueueModel : MonoBehaviour
                 item.Owner.SetPositionAndRotation(
                     Vector3.MoveTowards(item.Owner.position, item.Position.position, _moveSpeed * Time.deltaTime),
                     Quaternion.RotateTowards(item.Owner.rotation, Quaternion.LookRotation(direction), _rotationSpeed * Time.deltaTime));
+                item.Animator.SetFloat(SpeedKey, _moveSpeed);
+            }
+            else
+            {
+                item.Animator.SetFloat(SpeedKey, 0f);
             }
         }
     }
@@ -70,11 +76,13 @@ public class QueueModel : MonoBehaviour
     {
         public Transform Position;
         public Transform Owner;
+        public Animator Animator;
 
         public QueueItem(Transform position, Transform owner)
         {
             Position = position;
             Owner = owner;
+            Animator = owner.GetComponent<Animator>();
         }
     }
 }
