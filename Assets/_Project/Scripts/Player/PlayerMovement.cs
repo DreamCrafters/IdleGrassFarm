@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _currentVelocity;
     private Camera _playerCamera;
 
+    public Vector3 CurrentVelocity => _currentVelocity;
+
     public event Action<Collider> OnTriggerEnterEvent;
     public event Action<Collider> OnTriggerExitEvent;
 
