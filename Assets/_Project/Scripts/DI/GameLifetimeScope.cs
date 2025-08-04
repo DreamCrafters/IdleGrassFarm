@@ -5,6 +5,7 @@ using VContainer.Unity;
 public class GameLifetimeScope : LifetimeScope
 {
     [SerializeField] private GroundSpawnerModel _groundSpawnerModel;
+    [SerializeField] private PlayerCornsModel _playerCornsModel;
     [SerializeField] private FarmConfig _farmConfig;
     [SerializeField] private PlayerConfig _playerConfig;
     [SerializeField] private PlayerMovement _playerMovement;
@@ -34,8 +35,11 @@ public class GameLifetimeScope : LifetimeScope
     private void RegisterPlayerComponents(IContainerBuilder builder)
     {
         builder.RegisterInstance(_playerMovement);
+        builder.RegisterInstance(_playerCornsModel);
         builder.Register<PlayerModel>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
-        builder.Register<PlayerMow>(Lifetime.Singleton).AsImplementedInterfaces();
-        builder.Register<PlayerSeller>(Lifetime.Singleton).AsImplementedInterfaces();
+        builder.Register<PlayerMowPresenter>(Lifetime.Singleton).AsImplementedInterfaces();
+        builder.Register<PlayerSellPresenter>(Lifetime.Singleton).AsImplementedInterfaces();
+        builder.Register<PlayerCornsPresenter>(Lifetime.Singleton).AsImplementedInterfaces();
+        builder.Register<PlayerBuyPresenter>(Lifetime.Singleton).AsImplementedInterfaces();
     }
 }

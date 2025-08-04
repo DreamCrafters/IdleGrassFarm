@@ -1,31 +1,60 @@
-public class PlayerModel
+using UnityEngine;
+using VContainer;
+using VContainer.Unity;
+
+public class PlayerModel : IInitializable
 {
+    [Inject] private readonly GroundSpawnerPresenter _groundSpawnerPresenter;
+    [Inject] private readonly PlayerConfig _playerConfig;
+
     private int _coins;
     private int _cornsCount;
+    private int _upgradeCost;
 
     public int Coins => _coins;
     public int CornsCount => _cornsCount;
+    public int UpgradeCost => _upgradeCost;
 
     public event System.Action<int> OnCoinsChanged;
-    public event System.Action<int> OnCornsCountChanged;
+    public event System.Action<Vector3> OnCornAdded;
+    public event System.Action<Vector3> OnCornRemoved;
 
-    public void AddCorns(int amount = 1)
+    public void Initialize()
     {
-        _cornsCount += amount;
-        OnCornsCountChanged?.Invoke(_cornsCount);
+        _coins = 0;
+        _cornsCount = 0;
+        _upgradeCost = _playerConfig.StartUpgradeCost;
+
+        OnCoinsChanged?.Invoke(_coins);
     }
 
-    public void SellCorns(int amount)
+    public void TryUpgrade()
     {
-        if (_cornsCount < amount)
+        if (_coins >= _upgradeCost && _groundSpawnerPresenter.TryIncreaseFarmFieldSize())
+        {
+            _coins -= _upgradeCost;
+            _upgradeCost *= 2;
+            OnCoinsChanged?.Invoke(_coins);
+        }
+    }
+
+    public void AddCorns(Vector3 fromPosition)
+    {
+        _cornsCount++;
+        OnCornAdded?.Invoke(fromPosition);
+    }
+
+    public void SellCorns(Vector3 toPosition)
+    {
+        if (_cornsCount <= 0)
         {
             return;
         }
 
-        _coins += amount;
-        _cornsCount -= amount;
+        _coins++;
+        _cornsCount--;
         OnCoinsChanged?.Invoke(_coins);
-        OnCornsCountChanged?.Invoke(_cornsCount);
+        OnCornRemoved?.Invoke(toPosition);
     }
 
     public bool TryRemoveCoins(int amount)

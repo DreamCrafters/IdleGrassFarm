@@ -10,6 +10,7 @@ public class FarmConfig : ScriptableObject
     [SerializeField] private Vector2 _cellSize;
     [SerializeField] private Vector2Int _farmFieldStartPosition;
     [SerializeField] private int _farmFieldSize;
+    [SerializeField] private int _maxFarmFieldSize;
 
     public float TimeToNextStage => _timeToNextStage;
     public GameObject GrassPrefab => _grassPrefab;
@@ -18,4 +19,5 @@ public class FarmConfig : ScriptableObject
     public Vector2 CellSize => _cellSize;
     public Vector2Int FarmFieldStartPosition => _farmFieldStartPosition;
     public int FarmFieldSize => _farmFieldSize;
+    public int MaxFarmFieldSize => _maxFarmFieldSize;
 }

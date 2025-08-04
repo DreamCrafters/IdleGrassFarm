@@ -18,4 +18,5 @@ MonoBehaviour:
   _gridSize: {x: 15, y: 10}
   _cellSize: {x: 2, y: 2}
   _farmFieldStartPosition: {x: 8, y: 2}
-  _farmFieldSize: 2
+  _farmFieldSize: 1
+  _maxFarmFieldSize: 6
